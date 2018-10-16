@@ -1,10 +1,10 @@
-# :mouse: How to setup NFS on Softlayer for iCP shared storage with multi-master cluster :mouse:
+# :mouse: How to setup NFS on Softlayer for iCP shared storage with multi-master cluster 
 
 ### 1. Order file storage (NFS) and authorize for all master node
 - 10 iops is recommended for performance
-[nfs](https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/sl_file_storage.jpg)
+![nfs](https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/sl_file_storage.jpg)
 - authorize 
-[nfs](https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/sl_file_storage_authorize.jpg)
+![nfs](https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/sl_file_storage_authorize.jpg)
 
 ### 2. create shared directory & mount
 - excute at all master node or use ansible
