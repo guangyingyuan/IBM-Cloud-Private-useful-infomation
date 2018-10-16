@@ -51,7 +51,7 @@ watch -d -n 1 "docker ps | grep etcd"
 kubectl get pods --all-namespaces
 ~~~
 
-### 7. Remarks  
+### :snowman: Remarks  
 ~~~
 kubectl exec -it k8s-etcd-169.56.80.221 -n kube-system sh
 watch -d -n 2 "docker ps | grep etcd"
