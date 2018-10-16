@@ -1,4 +1,4 @@
-# :cloud: mongoDB bakcup & recovery
+# :cloud: mongoDB bakcup & recovery :cloud:
 
 ### 1. check mongodb pod  
 ~~~
