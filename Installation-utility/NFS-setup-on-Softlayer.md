@@ -19,3 +19,9 @@ mount -t nfs fsf-seo0101b-fz.adn.networklayer.com:/IBM02SEV1556965_1/data01  /va
 mount -t nfs fsf-seo0101b-fz.adn.networklayer.com:/IBM02SEV1556965_2/data01  /var/lib/icp/audit
 mount -t nfs fsf-seo0101a-fz.adn.networklayer.com:/IBM02SEV1556965_3/data01  /var/log/audit
 ~~~
+
+### :rabbit: Remarks
+- Image registry directory	https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/manage_cluster/ha_registry.html
+- nfs client install	https://help.ubuntu.com/community/SettingUpNFSHowTo
+- nfs mount	https://console.bluemix.net/docs/infrastructure/FileStorage/accessing-file-storage-linux.html#mounting-file-storage-on-linux
+
