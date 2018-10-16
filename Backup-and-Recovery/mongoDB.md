@@ -52,7 +52,7 @@ show dbs ;
 
 ### 7. check portal helm repo 
 - repositories should not be listed 
-![helm repo](https://github.ibm.com/parkhsu/ICP-useful-info-collections/blob/master/images/portal_helm_repo.JPG)
+![helm repo](https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/portal_helm_repo.JPG)
 
 ### 8. recovery 
 - you can change option "--nsInclude" for specify the dbname
