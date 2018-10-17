@@ -8,7 +8,10 @@ git clone https://github.com/ibm-cloud-architecture/icp-backup.git
 ### 2. backup etcd & check output 
 ~~~
 cd ~/icp-backup/scripts 
-export endpoint=10.10.13.75
+export org=ibmcom
+export repo=etcd
+export tag=v3.2.14
+export endpoint=10.10.13.xx
 ./backupEtcd.sh
 
 ls -al /tmp/etcd* 

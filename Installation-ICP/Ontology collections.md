@@ -1,0 +1,10 @@
+- readiness probe
+- kitematic
+- logstats https://www.elastic.co/guide/kr/logstash/current/getting-started-with-logstash.html
+- upgrade without down time
+- add worker or proxy or master 
+- liveness
+- image gc	https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/
+- host group 
+- etcd / mongo db
+- SAML	https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_3.1.0/user_management/saml.html
