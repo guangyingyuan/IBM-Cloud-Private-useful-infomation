@@ -1,14 +1,14 @@
 # Reference URL
 
-cicd install	https://pages.github.ibm.com/IBMPrivateCloud/environments/install_cicd/ 
-install automation	https://github.ibm.com/ICP-DevOps/icp-deploy-automation    
-HA master	https://github.com/ibm-cloud-architecture/refarch-privatecloud/blob/master/Resiliency/Configure_HA_ICP_cluster.md
-post installation check  https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_3.1.0/installing/install_proxy.html
-vpk	https://github.com/daveweilert/vpk
-icp featured	https://9.37.239.93/dev/
-cam	https://www.ibm.com/support/knowledgecenter/SS2L37_3.1.0.0/kc_welcome.html
-ICP HA	https://www.ibm.com/developerworks/community/blogs/5092bd93-e659-4f89-8de2-a7ac980487f0/entry/Availability_considerations_for_single_ICP_cluster_topologies?lang=en
-elasticsearch	https://www.youtube.com/watch?v=w7aHzIkD3D4&index=2&list=PLVNY1HnUlO24LCsgOxR_eK2Yi4sOgH9Pg
+- cicd install	https://pages.github.ibm.com/IBMPrivateCloud/environments/install_cicd/ 
+- install automation	https://github.ibm.com/ICP-DevOps/icp-deploy-automation    
+- HA master	https://github.com/ibm-cloud-architecture/refarch-privatecloud/blob/master/Resiliency/Configure_HA_ICP_cluster.md
+- post installation check  https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_3.1.0/installing/install_proxy.html
+- vpk	https://github.com/daveweilert/vpk
+- icp featured	https://9.37.239.93/dev/
+- cam	https://www.ibm.com/support/knowledgecenter/SS2L37_3.1.0.0/kc_welcome.html
+- ICP HA	https://www.ibm.com/developerworks/community/blogs/5092bd93-e659-4f89-8de2-a7ac980487f0/entry/Availability_considerations_for_single_ICP_cluster_topologies?lang=en
+- elasticsearch	https://www.youtube.com/watch?v=w7aHzIkD3D4&index=2&list=PLVNY1HnUlO24LCsgOxR_eK2Yi4sOgH9Pg
 
 
 - node maintenance
