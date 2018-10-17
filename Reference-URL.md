@@ -1,6 +1,5 @@
 # Reference URL
 
-- Installation guide
 cicd install	https://pages.github.ibm.com/IBMPrivateCloud/environments/install_cicd/ 
 install automation	https://github.ibm.com/ICP-DevOps/icp-deploy-automation    
 HA master	https://github.com/ibm-cloud-architecture/refarch-privatecloud/blob/master/Resiliency/Configure_HA_ICP_cluster.md
@@ -31,5 +30,6 @@ https://medium.com/ibm-cloud/integration-of-ibm-kubernetes-deployments-with-ibm-
 csmo main	https://github.com/ibm-cloud-architecture/CSMO-ICP  
 dashboard	https://www.ibm.com/blogs/bluemix/2018/01/dashboards-for-ibm-cloud-private/  
 
-- DR issue
-https://github.ibm.com/IBMPrivateCloud/roadmap/issues/6424  
+- DR issue	https://github.ibm.com/IBMPrivateCloud/roadmap/issues/6424  
+
+- API key geneation https://na.artifactory.swg-devops.com/artifactory/webapp/#/profile
