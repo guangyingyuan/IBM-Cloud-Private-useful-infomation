@@ -1,3 +1,4 @@
+## Terms definition
 - readiness probe
 - kitematic
 - logstats https://www.elastic.co/guide/kr/logstash/current/getting-started-with-logstash.html
