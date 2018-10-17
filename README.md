@@ -1,2 +1,2 @@
-# IBM Private Cloud useful information
-### :zap: Under constrution :zap:
+# IBM Cloud Private useful information
+### :zap: Under construction :zap:
