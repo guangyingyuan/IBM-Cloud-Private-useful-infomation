@@ -7,9 +7,5 @@ http://www.firewall.cx/downloads/cisco-tools-a-applications/196-cisco-anyconnect
 http://www.socsci.uci.edu/~jstern/uci_vpn_ubuntu/
 https://www.vpnkeys.com/setup-cisco-anyconnect-ubuntu/
 
-3. connecting to IBM intranet  
-https://w3.ibm.com/help/#/article/linux_sas_vpn/register_not_connected?requestedTopicId=overview
 
-
-:foggy: not success to connect
 
