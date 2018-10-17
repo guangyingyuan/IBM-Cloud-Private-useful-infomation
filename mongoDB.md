@@ -86,3 +86,21 @@ kubectl -n kube-system exec icp-mongodb-2 -- sh -c 'mongorestore --host rs0/mong
 - Reference document  
 https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/mongodb.md (official, but not working)  
 https://github.ibm.com/IBMPrivateCloud/icp-mongodb/blob/master/BackupRestore.README.md (working)
+
+ - mongod.conf 
+ ~~~
+    net:
+      bindIpAll: true
+      port: 27017
+      ssl:
+        CAFile: /ca/tls.crt
+        PEMKeyFile: /work-dir/mongo.pem
+        mode: requireSSL
+    replication:
+      replSetName: rs0
+    security:
+      authorization: enabled
+      keyFile: /work-dir/key.txt
+    storage:
+      dbPath: /data/db
+ ~~~
