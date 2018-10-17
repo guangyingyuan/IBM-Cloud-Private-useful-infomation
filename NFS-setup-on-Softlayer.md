@@ -1,4 +1,4 @@
-# :mouse: How to setup NFS on Softlayer for iCP shared storage with multi-master cluster 
+# :mouse: NFS setup on Softlayer for ICP shared storage with multi-master cluster 
 
 ### 1. Order file storage (NFS) and authorize for all master node
 - 10 iops is recommended for performance
