@@ -5,15 +5,15 @@
 - https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/manage_cluster/cli_sso_configure.html
 
 ### CAS
-cas (Central Authentication Service)  https://apereo.github.io/cas/4.2.x/planning/Installation-Requirements.html  
-tomcat install         https://www.digitalocean.com/community/tutorials/install-tomcat-9-ubuntu-1804  
+- cas (Central Authentication Service)  https://apereo.github.io/cas/4.2.x/planning/Installation-Requirements.html  
+- tomcat install         https://www.digitalocean.com/community/tutorials/install-tomcat-9-ubuntu-1804  
 ~~~
 apt-get install default-jdk maven
 ~~~
 
 ### Gluu
-installation	https://gluu.org/docs/ce/latest/installation-guide/  
-document	https://gluu.org/docs/ce/latest/admin-guide/saml/  
+- installation	https://gluu.org/docs/ce/latest/installation-guide/  
+- document	https://gluu.org/docs/ce/latest/admin-guide/saml/  
  
 ### Remarks
-nextree	http://www.nextree.co.kr/oauth-2reul-iyonghan-sso-hwangyeong-gucug-1-2/  
+- nextree	http://www.nextree.co.kr/oauth-2reul-iyonghan-sso-hwangyeong-gucug-1-2/  
