@@ -1,9 +1,11 @@
 # microclimate
-
+----------------
+## useful information
 Microclimate is a Web IDE for DevOps on IBM Cloud Private, Key functionalities are Immediate view for Web Application log, Resource Monitoring like JVM or GC, ntegrated with Jenkins for CI/CD
 
 - microclimate site : https://microclimate-dev2ops.github.io/gettingstarted
 - Use Microclimate to run an End-to-End DevOps on ICP	https://github.com/ibm-cloud-architecture/refarch-cloudnative-bluecompute-microclimate
+----------------
 
 ## install microclimate on ICP
 - https://github.com/IBM/charts/blob/master/stable/ibm-microclimate/README.md
