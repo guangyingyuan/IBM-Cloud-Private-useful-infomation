@@ -1,7 +1,7 @@
 # microclimate
 
 Microclimate is a Web IDE for DevOps on IBM Cloud Private, Key functionalities are Immediate view for Web Application log, Resource Monitoring like JVM or GC, ntegrated with Jenkins for CI/CD
- 
+
 - microclimate site : https://microclimate-dev2ops.github.io/gettingstarted
 - Use Microclimate to run an End-to-End DevOps on ICP	https://github.com/ibm-cloud-architecture/refarch-cloudnative-bluecompute-microclimate
 
@@ -55,20 +55,23 @@ kubectl patch serviceaccount default --namespace microclimate-pipeline-deploymen
 kubectl patch serviceaccount default --namespace microclimate-pipeline-deployments -p '{"imagePullSecrets": [{"name": "microclimate-pipeline-secret"}, {"name": "secret-1"}, ...., {"name": "secret-n"} ]}'
 ~~~
 
-### create PV 
-Microclimate은 ReadWriteMany를, Jenkins는 ReadWriteOnce로 각각 PV를 생성해야한다.
- 
+### create PV
+- create PVC & PV for Microclimate w/ReadWriteMany, Jenkins w/ReadWriteOnce
 
-kubectl get nodes -l proxy=true -o yaml | grep -B 1 ExternalIP
-
-- add helm repo and install
+### add helm repo and install
 ~~~
 helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
 helm install --name microclimate --namespace devops --set global.rbac.serviceAccountName=micro-sa,jenkins.rbac.serviceAccountName=pipeline-sa,hostName=microclimate.192.168.xx.xx.nip.io,jenkins.Master.HostName=jenkins.192.168.xx.xx.nip.io,persistence.useDynamicProvisioning=false ibm-charts/ibm-microclimate --tls
 ~~~
 
+### Remarks
+~~~
 kubectl get ingress -l release=<release_name>
 kubectl get all -l chart=ibm-microclimate-x.y.z
 
 helm delete microclimate5 --purge --tls
 helm upgrade microclimate -f overrides.yaml ibm-charts-public/ibm-microclimate --reuse-values --tls
+
+kubectl create secret tls ibm-microclimate-tls-secret --key ca.key --cert ca.crt --dry-run -o yaml | kubectl replace --force -f - secret/ibm-microclimate-tls-secret replaced
+kubectl get nodes -l proxy=true -o yaml | grep -B 1 ExternalIP
+~~~
