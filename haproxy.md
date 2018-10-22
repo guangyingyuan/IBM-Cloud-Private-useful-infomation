@@ -1,7 +1,65 @@
-# Configure haproxy
+# HA configuration with external load balancer with haproxy
 
+There are 2 options for HA configure of ICP
+  - https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/installing/custom_install.html#HA
+  - https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/installing/set_loadbalancer.html
 
-- /etc/haproxy/haproxy.conf
+Here is for 2nd option with haproxy
+1. prepare separate node for load balancing    
+2. installing & config haproxy   
+  ~~~
+  apt-get install haproxy  
+  vi /etc/haproxy/haproxy.conf
+  ~~~
+3. start and validate haproxy
+  ~~~
+  systemctl start haproxy
+  systemctl stop haproxy
+  systemctl status haproxy
+  ~~~
+
+  ~~~
+  master node> curl  https://169.xx.xx.x14:8443
+  curl: (60) server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none
+  More details here: http://curl.haxx.se/docs/sslcerts.html
+
+  curl performs SSL certificate verification by default, using a "bundle"
+   of Certificate Authority (CA) public keys (CA certs). If the default
+   bundle file isn't adequate, you can specify an alternate file
+   using the --cacert option.
+  If this HTTPS server uses a certificate signed by a CA represented in
+   the bundle, the certificate verification probably failed due to a
+   problem with the certificate (it might be expired, or the name might
+   not match the domain name in the URL).
+  If you'd like to turn off curl's verification of the certificate, use
+   the -k (or --insecure) option.
+   ~~~
+
+4. configure config.yaml & hosts
+~~~
+  [master]
+  169..221
+  169.xx.xx.x17
+  169.xx.xx.x10
+  [worker]
+  169.xx.xx.x22
+  [proxy]
+  169.xx.xx.x18
+  169.xx.xx.x12
+  [management]
+  169.xx.xx.x15
+  [lb--optional]  
+  169.xx.xx.x14
+~~~
+
+- confi.yaml
+~~~
+cluster_lb_address: 169.xx.xx.x14  
+#cluster_vip
+#proxy_vip
+~~~
+
+- /etc/haproxy/haproxy.conf  manual example is not working with latest version of haproxy
 ~~~
 global
       log         127.0.0.1 local2
@@ -29,7 +87,7 @@ defaults
       timeout check           10s
       maxconn                 3000
 
-frontend k8s-api 
+frontend k8s-api
       bind *:8001
       mode tcp
       option tcplog
@@ -37,9 +95,9 @@ frontend k8s-api
 backend k8s-api
       mode tcp
       balance roundrobin
-      server server1 169.56.80.221:8001
-      server server2 169.56.80.210:8001
-      server server3 169.56.80.217:8001
+      server server1 169.xx.xx.x21:8001
+      server server2 169.xx.xx.x10:8001
+      server server3 169.xx.xx.x17:8001
 
 frontend dashboard
       bind *:8443
@@ -49,11 +107,11 @@ frontend dashboard
 backend dashboard
       mode tcp
       balance roundrobin
-      server server1 169.56.80.221:8443
-      server server2 169.56.80.210:8443
-      server server3 169.56.80.217:8443
+      server server1 169.xx.xx.x21:8443
+      server server2 169.xx.xx.x10:8443
+      server server3 169.xx.xx.x17:8443
 
-frontend auth 
+frontend auth
       bind *:9443
       mode tcp
       option tcplog
@@ -61,9 +119,9 @@ frontend auth
 backend auth
       mode tcp
       balance roundrobin
-      server server1 169.56.80.221:9443
-      server server2 169.56.80.210:9443
-      server server3 169.56.80.217:9443
+      server server1 169.xx.xx.x21:9443
+      server server2 169.xx.xx.x10:9443
+      server server3 169.xx.xx.x17:9443
 
 frontend registry
       bind *:8500
@@ -73,11 +131,11 @@ frontend registry
 backend registry
       mode tcp
       balance roundrobin
-      server server1 169.56.80.221:8500
-      server server2 169.56.80.210:8500
-      server server3 169.56.80.217:8500
-  
-frontend image-manager 
+      server server1 169.xx.xx.x21:8500
+      server server2 169.xx.xx.x10:8500
+      server server3 169.xx.xx.x17:8500
+
+frontend image-manager
       bind *:8600
       mode tcp
       option tcplog
@@ -85,9 +143,9 @@ frontend image-manager
 backend image-manager
       mode tcp
       balance roundrobin
-      server server1 169.56.80.221:8600
-      server server2 169.56.80.210:8600
-      server server3 169.56.80.217:8600
+      server server1 169.xx.xx.x21:8600
+      server server2 169.xx.xx.x10:8600
+      server server3 169.xx.xx.x17:8600
 
 frontend proxy-http
       bind *:80
@@ -97,8 +155,8 @@ frontend proxy-http
 backend proxy-http
       mode tcp
       balance roundrobin
-      server server1 169.56.80.218:80
-      server server2 169.56.80.212:80
+      server server1 169.xx.xx.x18:80
+      server server2 169.xx.xx.x12:80
 
 frontend proxy-https
       bind *:443
@@ -108,6 +166,6 @@ frontend proxy-https
 backend proxy-https
       mode tcp
       balance roundrobin
-      server server1 169.56.80.218:443
-      server server2 169.56.80.212:443
+      server server1 169.xx.xx.x18:443
+      server server2 169.xx.xx.x12:443
 ~~~
