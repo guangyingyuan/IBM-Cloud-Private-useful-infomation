@@ -1,4 +1,4 @@
-# HA configuration with external load balancer with haproxy
+# HA configuration with external load balancer using haproxy
 
 There are 2 options for HA configure of ICP
   - https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/installing/custom_install.html#HA
