@@ -6,18 +6,22 @@ There are 2 options for HA configure of ICP
 
 Here is for 2nd option with haproxy
 1. prepare separate node for load balancing    
+
 2. installing & config haproxy   
+  - refer to sample on bottom
   ~~~
   apt-get install haproxy  
   vi /etc/haproxy/haproxy.conf
   ~~~
+
 3. start and validate haproxy
+  - operation
   ~~~
   systemctl start haproxy
   systemctl stop haproxy
   systemctl status haproxy
   ~~~
-
+  - validating  
   ~~~
   master node> curl  https://169.xx.xx.x14:8443
   curl: (60) server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none
@@ -35,7 +39,7 @@ Here is for 2nd option with haproxy
    the -k (or --insecure) option.
    ~~~
 
-4. configure config.yaml & hosts
+4. configure config.yaml & hosts  for ICP installation
 ~~~
   [master]
   169..221
@@ -59,7 +63,9 @@ cluster_lb_address: 169.xx.xx.x14
 #proxy_vip
 ~~~
 
-- /etc/haproxy/haproxy.conf  manual example is not working with latest version of haproxy
+5. Installation ICP
+
+6. Sample haproxy.conf : manual example is not working with latest version of haproxy
 ~~~
 global
       log         127.0.0.1 local2
