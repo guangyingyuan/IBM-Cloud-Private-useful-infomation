@@ -1,20 +1,25 @@
 # :snowflake: ETCD backup and recovery :snowflake:
 
-### 1. down load script 
+### overall process for etcd backup and recovery    
+<p align="center" >
+<img width=600 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/etcd-backup-recovery.jpg">
+</p>
+
+### 1. down load script
 ~~~
 git clone https://github.com/ibm-cloud-architecture/icp-backup.git
 ~~~
 
-### 2. backup etcd & check output 
+### 2. backup etcd & check output
 ~~~
-cd ~/icp-backup/scripts 
+cd ~/icp-backup/scripts
 export org=ibmcom
 export repo=etcd
 export tag=v3.2.14
 export endpoint=10.10.13.xx
 ./backupEtcd.sh
 
-ls -al /tmp/etcd* 
+ls -al /tmp/etcd*
 ~~~
 
 ### 3. stop etcd
@@ -27,7 +32,7 @@ ll /etc/cfc/pods
 
 ### 4. restore etcd
 ~~~
-cd ~/icp-backup/scripts 
+cd ~/icp-backup/scripts
 rm -rf  /var/lib/etcd/restored
 ls -al  /tmp/etcd*
 -rw-r--r-- 1 root root 27512864 Oct  6 18:14 /tmp/etcd.2018.10.06-18.14.21.db
@@ -39,14 +44,14 @@ ls -al  /tmp/etcd*
 ls -al  /var/lib/etcd/restored/
 ~~~
 
-### 5. delete existing & copy restored member data 
+### 5. delete existing & copy restored member data
 ~~~
 ls -al /var/lib/etcd
 mv   /var/lib/etcd/member  /tmp/member
 mv  /var/lib/etcd/restored/member  /var/lib/etcd/member
 ~~~
 
-### 6. start etcd 
+### 6. start etcd
 ~~~
 mv /etc/cfc/etcd.json /etc/cfc/pods/
 ls -al /etc/cfc/pods

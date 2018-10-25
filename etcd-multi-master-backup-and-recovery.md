@@ -1,5 +1,10 @@
 # :snowman: etcd backup and recovery for multi-master :snowman:
 
+### overall process for etcd backup and recovery    
+<p align="center" >
+<img width=600 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/etcd-backup-recovery.jpg">
+</p>
+
 ### 0. prereq
 ~~~
 apt-get install ansible
@@ -9,11 +14,11 @@ export endpoint=169.56.xx
 export CLUSTER_DIR=/opt/ibm-cloud-private-3.1.0/cluster
 ~~~
 
-### 1. backup etcd 
+### 1. backup etcd
 ~~~
-cd ~/icp-backup/scripts 
+cd ~/icp-backup/scripts
 ./backupEtcd.sh
-ls -al /tmp/etcd* 
+ls -al /tmp/etcd*
 ~~~
 
 ### 2. stop etcd   
@@ -23,7 +28,7 @@ ansible master -m shell -a "mv /etc/cfc/pods/*.json /etc/cfc/podbackup"
 ansible master -m wait_for -a  "port=4001 state=stopped"
 ~~~
 
-### 3. stop kubelet & remove etcd data 
+### 3. stop kubelet & remove etcd data
 ~~~
 ansible master,management -m service -a "name=kubelet state=stopped"
 ansible master -m shell -a "mv  /var/lib/etcd /var/lib/old-etcd2"
@@ -43,7 +48,7 @@ ansible master -m script -a "./multimaster-etcd-restore.sh"
 ansible master -m shell -a "mv /var/lib/etcd/restored/* /var/lib/etcd/"
 ~~~
 
-### 6. start kubelet & etcd 
+### 6. start kubelet & etcd
 - docker restarting takes more than 5 min.
 ~~~
 ansible master,management -m service -a "name=docker state=restarted"
@@ -62,7 +67,7 @@ ansible master -m shell -a "docker ps | grep etcd"
 ### :zap: Remarks
 
 ~~~
-cd ~/icp-backup/scripts 
+cd ~/icp-backup/scripts
 . ./etcd.sh
 $etcdctl2 cluster-health
 
