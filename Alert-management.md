@@ -1,6 +1,6 @@
 # Alert configuration
 
-## Alert configuration and data flow    
+## Alert event flow overview      
 <p align="center" >
 <img width=700 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/alert-process.jpg">
 </p>
