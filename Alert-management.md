@@ -1,8 +1,6 @@
-# Alert configuration
-
 ## Alert event flow overview      
 <p align="center" >
-<img width=700 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/alert-process.jpg">
+<img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-process.jpg">
 </p>
 
 - set up alert	https://developer.ibm.com/recipes/tutorials/setting-up-system-alerts-in-an-ibm-cloud-private-environment/
