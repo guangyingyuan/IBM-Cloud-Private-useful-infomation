@@ -7,7 +7,7 @@ Microclimate is a Web IDE for DevOps on IBM Cloud Private, Key functionalities a
 - installation guide https://github.com/IBM/charts/blob/master/stable/ibm-microclimate/README.md
 
 <p align="center" >
-<img width=700 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/microclimate.jpg">
+<img width=700 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/microclimate.jpg">
 </p>
 
 ---
