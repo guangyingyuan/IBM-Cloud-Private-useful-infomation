@@ -11,8 +11,6 @@ icp-mongodb-2                                                  1/1       Running
 <img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/mongodb-pod.jpg">
 </p>
 
-
-
 ### 2. go into mongodb container  
 - it may need to change container name
 ~~~  
