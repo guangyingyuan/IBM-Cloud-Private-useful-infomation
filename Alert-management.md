@@ -39,10 +39,5 @@
 - amtool	https://github.com/prometheus/alertmanager/blob/master/README.md
 
 ### example
-- alert manager
-![alertmanager](https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/alert-manager.yaml)
-
-- alert rule
-~~~
-
-~~~
+- alert manager https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/alert-manager.yaml    
+- alert rule https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/alert-rule.yaml
