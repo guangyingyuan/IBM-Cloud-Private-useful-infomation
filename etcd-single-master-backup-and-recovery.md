@@ -64,3 +64,12 @@ kubectl get pods --all-namespaces
 kubectl exec -it k8s-etcd-169.56.80.221 -n kube-system sh
 watch -d -n 2 "docker ps | grep etcd"
 ~~~
+
+### Remarks
+
+- main	https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd.md
+- etcd restore to single   https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd_restore_single.md
+- etcd restore to multi    https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd_restore_multi.md
+- etcd	https://github.com/haoqing0110/icp-workspace/tree/master/icp-backup-restore/etcd
+- etcd backup & restore  https://juner417.github.io/blog/etcd-backup-and-restore/
+- etcd everything	https://www.mirantis.com/blog/everything-you-ever-wanted-to-know-about-using-etcd-with-kubernetes-v1-6-but-were-afraid-to-ask/
