@@ -47,7 +47,7 @@ alerting configuration options: group_interval, group_wait, and repeat_interval.
 Before digging into these 3 Alertmanager configuration options, let's recap on some Prometheus alerting basics.
 Prometheus itself has two global clocks: scrape_interval and evaluation_interval.
 ~~~
-- list of configmap which should be updated
+- need to change the parameter for alert catch up time settings  
 <p align="center" >
 <img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-manager-config.jpg">
 </p>
