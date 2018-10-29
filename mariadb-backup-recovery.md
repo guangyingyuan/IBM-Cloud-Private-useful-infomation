@@ -112,6 +112,18 @@ kubectl create -f icp-mariadb-restore-job.yaml   # need to check PV
 kubectl get pods -n default | grep mariadb   
 kubectl logs pod/icp-mariadb-restore-xxxxx  
 ~~~
+
+- if you need selective restore, need to update the command line of job script
+~~~
+- name: icp-mariadb-restore
+  image: "mycluster.icp:8500/default/ibmcase/icp-mariadb-backup:latest"
+  command: ["/mariadb-restore.sh", "--backup-home", "/data/backups", "--dbnames", "icptest"]
+  volumeMounts:
+    - mountPath: "/data/backups"
+      name: mariadb-restore
+restartPolicy: Never
+~~~
+
 ### 10. check mysql database
 ~~~
 mysql --user=$mariadb_user --password=$mariadb_password --host=ms01  
