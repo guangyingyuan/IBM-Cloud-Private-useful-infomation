@@ -1,4 +1,4 @@
-# :horse: Alter manager
+# :horse: Alert Manager
 
 ## Alert event flow overview      
 <p align="center" >
