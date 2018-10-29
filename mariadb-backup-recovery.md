@@ -122,6 +122,10 @@ show tables ;
 select * from icp01 ;  
 ~~~
 
+<p align="center" >
+<img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/mariadb-backup-recovery-pod.jpg">
+</p>
+
 ### Remarks
 
 backup process https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/mariadb.md    
