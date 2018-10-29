@@ -1,0 +1,711 @@
+root@ms01:~# clear
+root@ms01:~# apt-get install mysql-client
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+mysql-client is already the newest version (5.7.23-0ubuntu0.16.04.1).
+The following packages were automatically installed and are no longer required:
+  libdbd-mysql-perl libdbi-perl libmysqlclient20 libterm-readkey-perl mariadb-common
+Use 'apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 10 not upgraded.
+root@ms01:~# rm -rf icp-backup
+root@ms01:~# git clone https://github.com/ibm-cloud-architecture/icp-backup.git
+Cloning into 'icp-backup'...
+remote: Enumerating objects: 22, done.
+remote: Counting objects: 100% (22/22), done.
+remote: Compressing objects: 100% (16/16), done.
+remote: Total 610 (delta 11), reused 15 (delta 6), pack-reused 588
+Receiving objects: 100% (610/610), 40.14 MiB | 10.00 MiB/s, done.
+Resolving deltas: 100% (335/335), done.
+Checking connectivity... done.
+root@ms01:~# cd icp-backup/src/mariadb-backup/1.0
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# source helper-functions.sh
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# mariadb_user=$(getMariaDBUser)
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# mariadb_password=$(getMariaDBPassword)
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# mysql --user=$mariadb_user --password=$mariadb_password --host=ms01
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 43797
+Server version: 5.5.5-10.2.17-MariaDB-1:10.2.17+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| OAuthDBSchema      |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> create database icptest;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| OAuthDBSchema      |
+| icptest            |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use icptest ;
+Database changed
+mysql> create table icp01(a varchar(10), b integer) ;
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> show tables ;
++-------------------+
+| Tables_in_icptest |
++-------------------+
+| icp01             |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into icp01 values("xxxx",100) ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from icp01 ;
++------+------+
+| a    | b    |
++------+------+
+| xxxx |  100 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql> exit
+Bye
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# cd ~/icp-backup/src/mariadb-backup/1.0
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# docker build -f Dockerfile-1.0 --build-arg version=1.0 -t ibmcase/icp-mariadb-backup .
+unable to prepare context: unable to evaluate symlinks in Dockerfile path: lstat /root/icp-backup/src/mariadb-backup/1.0/Dockerfile-1.0: no such file or directory
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# ll
+total 52
+drwxr-xr-x 2 root root  4096 Sep 26 02:02 ./
+drwxr-xr-x 3 root root  4096 Sep 26 02:02 ../
+-rwxr-xr-x 1 root root  4639 Sep 26 02:02 backup-cleanup.sh*
+-rwxr-xr-x 1 root root  3488 Sep 26 02:02 get-database-names.sh*
+-rwxr-xr-x 1 root root  6817 Sep 26 02:02 helper-functions.sh*
+-rwxr-xr-x 1 root root  8259 Sep 26 02:02 mariadb-backup.sh*
+-rwxr-xr-x 1 root root 10459 Sep 26 02:02 mariadb-restore.sh*
+root@ms01:~/icp-backup/src/mariadb-backup/1.0# cd ..
+root@ms01:~/icp-backup/src/mariadb-backup# ll
+total 16
+drwxr-xr-x 3 root root 4096 Sep 26 02:02 ./
+drwxr-xr-x 5 root root 4096 Sep 26 02:02 ../
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 1.0/
+-rw-r--r-- 1 root root 1052 Sep 26 02:02 Dockerfile-1.0
+root@ms01:~/icp-backup/src/mariadb-backup# docker build -f Dockerfile-1.0 --build-arg version=1.0 -t ibmcase/icp-mariadb-backup .
+Sending build context to Docker daemon  41.47kB
+Step 1/6 : FROM alpine
+ ---> 196d12cf6ab1
+Step 2/6 : ARG version
+ ---> Using cache
+ ---> aa7a511913bb
+Step 3/6 : RUN apk add --update bash curl jq mysql-client
+ ---> Running in 7415cb6f58e5
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/community/x86_64/APKINDEX.tar.gz
+ERROR: http://dl-cdn.alpinelinux.org/alpine/v3.8/main: temporary error (try again later)
+WARNING: Ignoring APKINDEX.adfa7ceb.tar.gz: No such file or directory
+ERROR: http://dl-cdn.alpinelinux.org/alpine/v3.8/community: temporary error (try again later)
+WARNING: Ignoring APKINDEX.efaa1f73.tar.gz: No such file or directory
+ERROR: unsatisfiable constraints:
+  bash (missing):
+    required by: world[bash]
+  curl (missing):
+    required by: world[curl]
+  jq (missing):
+    required by: world[jq]
+  mysql-client (missing):
+    required by: world[mysql-client]
+The command '/bin/sh -c apk add --update bash curl jq mysql-client' returned a non-zero code: 4
+root@ms01:~/icp-backup/src/mariadb-backup# service docker restart
+root@ms01:~/icp-backup/src/mariadb-backup# docker build -f Dockerfile-1.0 --build-arg version=1.0 -t ibmcase/icp-mariadb-backup .
+Sending build context to Docker daemon  41.47kB
+Step 1/6 : FROM alpine
+ ---> 196d12cf6ab1
+Step 2/6 : ARG version
+ ---> Using cache
+ ---> aa7a511913bb
+Step 3/6 : RUN apk add --update bash curl jq mysql-client
+ ---> Running in 158707129e8c
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/community/x86_64/APKINDEX.tar.gz
+(1/17) Installing ncurses-terminfo-base (6.1_p20180818-r1)
+(2/17) Installing ncurses-terminfo (6.1_p20180818-r1)
+(3/17) Installing ncurses-libs (6.1_p20180818-r1)
+(4/17) Installing readline (7.0.003-r0)
+(5/17) Installing bash (4.4.19-r1)
+Executing bash-4.4.19-r1.post-install
+(6/17) Installing ca-certificates (20171114-r3)
+(7/17) Installing nghttp2-libs (1.32.0-r0)
+(8/17) Installing libssh2 (1.8.0-r3)
+(9/17) Installing libcurl (7.61.1-r0)
+(10/17) Installing curl (7.61.1-r0)
+(11/17) Installing oniguruma (6.8.2-r0)
+(12/17) Installing jq (1.6_rc1-r1)
+(13/17) Installing mariadb-common (10.2.15-r0)
+(14/17) Installing libgcc (6.4.0-r8)
+(15/17) Installing libstdc++ (6.4.0-r8)
+(16/17) Installing mariadb-client (10.2.15-r0)
+(17/17) Installing mysql-client (10.2.15-r0)
+Executing busybox-1.28.4-r1.trigger
+Executing ca-certificates-20171114-r3.trigger
+OK: 47 MiB in 30 packages
+Removing intermediate container 158707129e8c
+ ---> f66a5ffddd56
+Step 4/6 : RUN curl --silent -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl     && chmod +x ./kubectl     && mv ./kubectl /usr/local/bin/kubectl
+ ---> Running in 1331c9834a6f
+Removing intermediate container 1331c9834a6f
+ ---> 3a8e80d69657
+Step 5/6 : COPY $version/*.sh /
+ ---> 020d5555e105
+Step 6/6 : CMD [ "/get-database-names.sh", "--dbhost", "mariadb.kube-system"     ]
+ ---> Running in 8ca1239400c1
+Removing intermediate container 8ca1239400c1
+ ---> d1e02e92f5de
+Successfully built d1e02e92f5de
+Successfully tagged ibmcase/icp-mariadb-backup:latest
+root@ms01:~/icp-backup/src/mariadb-backup# mkdir ~/images
+root@ms01:~/icp-backup/src/mariadb-backup# docker images | grep mariadb
+ibmcase/icp-mariadb-backup                                         latest                         d1e02e92f5de        26 seconds ago      100MB
+mycluster.icp:8500/default/ibmcase/icp-mariadb-backup              latest                         48a41cce7fb2        15 hours ago        100MB
+mycluster.icp:8500/ibmcom/mariadb-amd64                            10.2.17                        90fb8735aa60        5 weeks ago         359MB
+mycluster.icp:8500/ibmcom/mariadb                                  10.2.17                        90fb8735aa60        5 weeks ago         359MB
+root@ms01:~/icp-backup/src/mariadb-backup# docker save ibmcase/icp-mariadb-backup | gzip > ~/images/icp-mariadb-backup-image-0.1.0.tgz
+root@ms01:~/icp-backup/src/mariadb-backup# cd
+root@ms01:~# cd images
+root@ms01:~/images# ll
+total 27180
+drwxr-xr-x  2 root root     4096 Sep 26 02:13 ./
+drwx------ 15 root root     4096 Sep 26 02:12 ../
+-rw-r--r--  1 root root 27823473 Sep 26 02:13 icp-mariadb-backup-image-0.1.0.tgz
+root@ms01:~/images# docker load -i ~/images/icp-mariadb-backup-image-0.1.0.tgz
+Loaded image: ibmcase/icp-mariadb-backup:latest
+root@ms01:~/images# docker tag ibmcase/icp-mariadb-backup:latest mycluster.icp:8500/default/ibmcase/icp-mariadb-backup:latest
+root@ms01:~/images# docker images | grep mariadb
+ibmcase/icp-mariadb-backup                                         latest                         d1e02e92f5de        3 minutes ago       100MB
+mycluster.icp:8500/default/ibmcase/icp-mariadb-backup              latest                         d1e02e92f5de        3 minutes ago       100MB
+mycluster.icp:8500/default/ibmcase/icp-mariadb-backup              <none>                         48a41cce7fb2        15 hours ago        100MB
+mycluster.icp:8500/ibmcom/mariadb                                  10.2.17                        90fb8735aa60        5 weeks ago         359MB
+mycluster.icp:8500/ibmcom/mariadb-amd64                            10.2.17                        90fb8735aa60        5 weeks ago         359MB
+root@ms01:~/images# docker push mycluster.icp:8500/default/ibmcase/icp-mariadb-backup:latest
+The push refers to repository [mycluster.icp:8500/default/ibmcase/icp-mariadb-backup]
+1f179c442e7b: Preparing
+394168f588d0: Preparing
+762cbf9df38b: Preparing
+df64d3292fd6: Preparing
+unauthorized: authentication required
+root@ms01:~/images# docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: admin
+Password:
+Error response from daemon: Get https://registry-1.docker.io/v2/: toomanyrequests: too many failed login attempts for username or IP address
+root@ms01:~/images# docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: admin
+Password:
+Error response from daemon: Get https://registry-1.docker.io/v2/: toomanyrequests: too many failed login attempts for username or IP address
+root@ms01:~/images# cloudctl login
+API endpoint: https://169.56.80.221:8443
+
+Username> admin
+
+Password>
+Authenticating...
+FAILED
+The targeted API endpoint could not be reached.
+root@ms01:~/images# cloudctl login
+API endpoint: https://169.56.80.221:8443
+
+Username> admin
+
+Password>
+Authenticating...
+FAILED
+The targeted API endpoint could not be reached.
+root@ms01:~/images# docker ps | wc -l
+84
+root@ms01:~/images# docker ps | wc -l
+85
+root@ms01:~/images# docker ps | wc -l
+85
+root@ms01:~/images# docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: admin
+Password:
+Error response from daemon: Get https://registry-1.docker.io/v2/: toomanyrequests: too many failed login attempts for username or IP address
+root@ms01:~/images# cloudctl login
+API endpoint: https://169.56.80.221:8443
+
+Username> admin
+
+Password>
+Authenticating...
+FAILED
+Credentials were rejected, please try again.
+root@ms01:~/images# cloudctl login
+API endpoint: https://169.56.80.221:8443
+
+Username> ^C
+root@ms01:~/images#
+root@ms01:~/images#
+root@ms01:~/images# kubectl config set-cluster cluster.local --server=https://169.56.80.221:8001 --insecure-skip-tls-verify=true
+Cluster "cluster.local" set.
+root@ms01:~/images# kubectl config set-context cluster.local-context --cluster=cluster.local
+Context "cluster.local-context" modified.
+root@ms01:~/images# kubectl config set-credentials admin --token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoidzJ0bDEzZ3l3YWMxeGhvcnpsZzEiLCJyZWFsbU5hbWUiOiJjdXN0b21SZWFsbSIsInVuaXF1ZVNlY3VyaXR5TmFtZSI6ImFkbWluIiwiaXNzIjoiaHR0cHM6Ly9teWNsdXN0ZXIuaWNwOjk0NDMvb2lkYy9lbmRwb2ludC9PUCIsImF1ZCI6IjliMjk3NzE1Y2ZkMGZmNTcwOTAzYjczZWU4YmQ0ODc3IiwiZXhwIjoxNTM3OTI0NzM4LCJpYXQiOjE1Mzc4OTU5MzgsInN1YiI6ImFkbWluIiwidGVhbVJvbGVNYXBwaW5ncyI6W119.Y4K909drX9YMubtcZXe1yXI0pGGs2DP2bfyzmz9vGvKn5GOuo4bAuaY7QTkIxs89Wi2DY9vK-DqRf-KvxqcIDs0g5dlHaEMyRy4eSGrtn9PyV5f72nrPwapTl3tTjzbtQR2ZlqLZIhTSYGG24folsIX2hEYlQhlBdVBwCYxP8gCnBN_3NZWMKF2C2v4l-4LIpf5jzFClzL7fsFed8jq5vBBnbmTboNF5GMabWyE3qs7Sitjr0aogoGCwPi-M8-oAx0dFJvZV2pIqrk55fH0xU2nCe5L8jK29V22xZq0CGAS_uACZomuNTYFv8PJZ_tXyhmOuCsQctm_lyxvgEG0mMw
+User "admin" set.
+root@ms01:~/images# kubectl config set-context cluster.local-context --user=admin --namespace=cert-manager
+Context "cluster.local-context" modified.
+root@ms01:~/images# kubectl config use-context cluster.local-context
+Switched to context "cluster.local-context".
+root@ms01:~/images# docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: admin
+Password:
+Error response from daemon: Get https://registry-1.docker.io/v2/: unauthorized: incorrect username or password
+root@ms01:~/images# docker login mycluster.icp:8500
+Username (admin): admin
+Password:
+Login Succeeded
+root@ms01:~/images# docker images | grep mariadb
+ibmcase/icp-mariadb-backup                                         latest                         d1e02e92f5de        10 minutes ago      100MB
+mycluster.icp:8500/default/ibmcase/icp-mariadb-backup              latest                         d1e02e92f5de        10 minutes ago      100MB
+mycluster.icp:8500/default/ibmcase/icp-mariadb-backup              <none>                         48a41cce7fb2        15 hours ago        100MB
+mycluster.icp:8500/ibmcom/mariadb                                  10.2.17                        90fb8735aa60        5 weeks ago         359MB
+mycluster.icp:8500/ibmcom/mariadb-amd64                            10.2.17                        90fb8735aa60        5 weeks ago         359MB
+root@ms01:~/images# docker push mycluster.icp:8500/default/ibmcase/icp-mariadb-backup:latest
+The push refers to repository [mycluster.icp:8500/default/ibmcase/icp-mariadb-backup]
+1f179c442e7b: Pushed
+394168f588d0: Pushed
+762cbf9df38b: Pushed
+df64d3292fd6: Layer already exists
+latest: digest: sha256:ac51aba1c2aac0ec8181620b7829021256e68c5d8718169bb59ba09618b90a29 size: 1160
+root@ms01:~/images# cd
+root@ms01:~# cd icp-backup
+root@ms01:~/icp-backup# ll
+total 48
+drwxr-xr-x  9 root root 4096 Sep 26 02:02 ./
+drwx------ 15 root root 4096 Sep 26 02:12 ../
+drwxr-xr-x  3 root root 4096 Sep 26 02:02 docs/
+drwxr-xr-x  8 root root 4096 Sep 26 02:02 .git/
+-rw-r--r--  1 root root   10 Sep 26 02:02 .gitignore
+drwxr-xr-x  3 root root 4096 Sep 26 02:02 helm-charts/
+drwxr-xr-x  2 root root 4096 Sep 26 02:02 images/
+-rw-r--r--  1 root root 4462 Sep 26 02:02 README.md
+drwxr-xr-x  2 root root 4096 Sep 26 02:02 resources/
+drwxr-xr-x  5 root root 4096 Sep 26 02:02 scripts/
+drwxr-xr-x  5 root root 4096 Sep 26 02:02 src/
+root@ms01:~/icp-backup# cd src
+root@ms01:~/icp-backup/src# ll
+total 20
+drwxr-xr-x 5 root root 4096 Sep 26 02:02 ./
+drwxr-xr-x 9 root root 4096 Sep 26 02:02 ../
+drwxr-xr-x 6 root root 4096 Sep 26 02:02 cloudant-backup/
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 cloudant-ppa/
+drwxr-xr-x 3 root root 4096 Sep 26 02:02 mariadb-backup/
+root@ms01:~/icp-backup/src# cd mariadb-backup/
+root@ms01:~/icp-backup/src/mariadb-backup# ll
+total 16
+drwxr-xr-x 3 root root 4096 Sep 26 02:02 ./
+drwxr-xr-x 5 root root 4096 Sep 26 02:02 ../
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 1.0/
+-rw-r--r-- 1 root root 1052 Sep 26 02:02 Dockerfile-1.0
+root@ms01:~/icp-backup/src/mariadb-backup# cd ..
+root@ms01:~/icp-backup/src# cd ..
+root@ms01:~/icp-backup# cd scripts/
+root@ms01:~/icp-backup/scripts# ll
+total 80
+drwxr-xr-x 5 root root 4096 Sep 26 02:02 ./
+drwxr-xr-x 9 root root 4096 Sep 26 02:02 ../
+-rwxr-xr-x 1 root root  172 Sep 26 02:02 backupCloudant.sh*
+-rwxr-xr-x 1 root root  252 Sep 26 02:02 backupEtcd.sh*
+-rwxr-xr-x 1 root root  227 Sep 26 02:02 buildComponent.sh*
+-rwxr-xr-x 1 root root  125 Sep 26 02:02 buildPush.sh*
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 cloudant/
+-rwxr-xr-x 1 root root  156 Sep 26 02:02 configureHelmCLI.sh*
+-rwxr-xr-x 1 root root  123 Sep 26 02:02 createCloudantPVC.sh*
+-rwxr-xr-x 1 root root  471 Sep 26 02:02 createConfigMaps.sh*
+-rwxr-xr-x 1 root root  584 Sep 26 02:02 createVolumes.sh*
+-rw-r--r-- 1 root root  613 Sep 26 02:02 etcd.sh
+drwxr-xr-x 3 root root 4096 Sep 26 02:02 mariadb/
+-rw-r--r-- 1 root root 1595 Sep 26 02:02 multimaster-etcd-restore.sh
+-rw-r--r-- 1 root root   94 Sep 26 02:02 purge_kubelet_pods.sh
+-rwxr-xr-x 1 root root  318 Sep 26 02:02 pushComponent.sh*
+-rwxr-xr-x 1 root root  377 Sep 26 02:02 restoreCloudant.sh*
+-rwxr-xr-x 1 root root  271 Sep 26 02:02 restoreEtcd.sh*
+-rwxr-xr-x 1 root root  162 Sep 26 02:02 switchNamespace.sh*
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 volume_config/
+root@ms01:~/icp-backup/scripts# cd mariadb/
+root@ms01:~/icp-backup/scripts/mariadb# ll
+total 12
+drwxr-xr-x 3 root root 4096 Sep 26 02:02 ./
+drwxr-xr-x 5 root root 4096 Sep 26 02:02 ../
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 ansible/
+root@ms01:~/icp-backup/scripts/mariadb# cd ..
+root@ms01:~/icp-backup/scripts# cd ..
+root@ms01:~/icp-backup# ll
+total 48
+drwxr-xr-x  9 root root 4096 Sep 26 02:02 ./
+drwx------ 15 root root 4096 Sep 26 02:12 ../
+drwxr-xr-x  3 root root 4096 Sep 26 02:02 docs/
+drwxr-xr-x  8 root root 4096 Sep 26 02:02 .git/
+-rw-r--r--  1 root root   10 Sep 26 02:02 .gitignore
+drwxr-xr-x  3 root root 4096 Sep 26 02:02 helm-charts/
+drwxr-xr-x  2 root root 4096 Sep 26 02:02 images/
+-rw-r--r--  1 root root 4462 Sep 26 02:02 README.md
+drwxr-xr-x  2 root root 4096 Sep 26 02:02 resources/
+drwxr-xr-x  5 root root 4096 Sep 26 02:02 scripts/
+drwxr-xr-x  5 root root 4096 Sep 26 02:02 src/
+root@ms01:~/icp-backup# cd resources/
+root@ms01:~/icp-backup/resources# ll
+total 32
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 ./
+drwxr-xr-x 9 root root 4096 Sep 26 02:02 ../
+-rw-r--r-- 1 root root  164 Sep 26 02:02 cloudant_backup_pvc.yaml
+-rw-r--r-- 1 root root  500 Sep 26 02:02 icp-cloudant-backup-job.yaml
+-rw-r--r-- 1 root root  690 Sep 26 02:02 icp-cloudant-restore-job.yaml
+-rw-r--r-- 1 root root  553 Sep 26 02:02 icp-mariadb-backup-job.yaml
+-rw-r--r-- 1 root root  557 Sep 26 02:02 icp-mariadb-restore-job.yaml
+-rw-r--r-- 1 root root  274 Sep 26 02:02 mariadb-backup-pvc.yaml
+root@ms01:~/icp-backup/resources# cd
+root@ms01:~# cd ~/icp-backup/resources
+root@ms01:~/icp-backup/resources# ^C
+root@ms01:~/icp-backup/resources# kubectl create -f mariadb-backup-pvc.yaml
+persistentvolumeclaim/mariadb-backup-pvc created
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-backup-job.yaml
+job.batch/icp-mariadb-backup created
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-backup-job.yaml
+job.batch/icp-mariadb-backup created
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-backup-job.yaml
+job.batch/icp-mariadb-backup created
+root@ms01:~/icp-backup/resources# cloudctl login
+API endpoint: https://169.56.80.221:8443
+
+Username> admin
+
+Password>
+Authenticating...
+OK
+
+Select an account:
+1. mycluster Account (id-mycluster-account)
+Enter a number> 1
+Targeted account mycluster Account (id-mycluster-account)
+
+Select a namespace:
+1. cert-manager
+2. default
+3. ibmcom
+4. istio-system
+5. kube-public
+6. kube-system
+7. platform
+8. services
+Enter a number> 6
+Targeted namespace kube-system
+
+Configuring kubectl ...
+Property "clusters.mycluster" unset.
+Property "users.mycluster-user" unset.
+Property "contexts.mycluster-context" unset.
+Cluster "mycluster" set.
+User "mycluster-user" set.
+Context "mycluster-context" created.
+Switched to context "mycluster-context".
+OK
+
+Configuring helm: /root/.helm
+OK
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-backup-job.yaml
+job.batch/icp-mariadb-backup created
+root@ms01:~/icp-backup/resources# kubectl get pods -n kube-system | grep mariadb
+icp-mariadb-backup-vhzdf                                          0/1       Completed          0          54s
+mariadb-0                                                         1/1       Running            1          2d
+root@ms01:~/icp-backup/resources# kubectl logs pod/icp-mariadb-backup-vhzdf
+[2018/09/25-17:28:38] mariadb-backup.sh(102) BEGIN mariadb-backup.sh
+[2018/09/25-17:28:38] mariadb-backup.sh(149) Backup directory will be created in: /data/backups
+[2018/09/25-17:28:38] mariadb-backup.sh(154) MariaDB host: mariadb.kube-system
+[2018/09/25-17:28:39] mariadb-backup.sh(197) Databases to be backed up: OAuthDBSchema icptest information_schema mysql performance_schema
+[2018/09/25-17:28:39] mariadb-backup.sh(203) Creating backup directory: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:28:39] mariadb-backup.sh(210) Backups will be written to: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:28:39] mariadb-backup.sh(220) MariaDB user: root
+[2018/09/25-17:28:39] mariadb-backup.sh(230) Backing up OAuthDBSchema to /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/OAuthDBSchema-backup.sql...
+[2018/09/25-17:28:39] mariadb-backup.sh(232) OAuthDBSchema back-up completed.
+[2018/09/25-17:28:39] mariadb-backup.sh(230) Backing up icptest to /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/icptest-backup.sql...
+[2018/09/25-17:28:39] mariadb-backup.sh(232) icptest back-up completed.
+[2018/09/25-17:28:39] mariadb-backup.sh(230) Backing up information_schema to /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/information_schema-backup.sql...
+[2018/09/25-17:28:41] mariadb-backup.sh(232) information_schema back-up completed.
+[2018/09/25-17:28:41] mariadb-backup.sh(230) Backing up mysql to /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/mysql-backup.sql...
+[2018/09/25-17:28:41] mariadb-backup.sh(232) mysql back-up completed.
+[2018/09/25-17:28:41] mariadb-backup.sh(230) Backing up performance_schema to /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/performance_schema-backup.sql...
+[2018/09/25-17:28:42] mariadb-backup.sh(232) performance_schema back-up completed.
+[2018/09/25-17:28:42] mariadb-backup.sh(235) END mariadb-backup.sh
+root@ms01:~/icp-backup/resources# ssh root@wk01
+Welcome to Ubuntu 16.04.5 LTS (GNU/Linux 4.4.0-134-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+13 packages can be updated.
+0 updates are security updates.
+
+New release '18.04.1 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Tue Sep 25 04:25:37 2018 from 169.56.80.221
+root@wk01:~# cd /var/lib/icp/mariadb
+-bash: cd: /var/lib/icp/mariadb: No such file or directory
+root@wk01:~# cd /backup
+root@wk01:/backup# ll
+total 24
+drwxr-xr-x  6 root root 4096 Sep 25 17:28 ./
+drwxr-xr-x 26 root root 4096 Sep 25 02:55 ../
+drwxr-xr-x  2 root root 4096 Sep 25 02:56 icp-mariadb-backup-2018-09-25-02-55-59/
+drwxr-xr-x  2 root root 4096 Sep 25 03:04 icp-mariadb-backup-2018-09-25-03-04-17/
+drwxr-xr-x  2 root root 4096 Sep 25 04:31 icp-mariadb-backup-2018-09-25-03-13-21/
+drwxr-xr-x  2 root root 4096 Sep 25 17:28 icp-mariadb-backup-2018-09-25-17-28-39/
+root@wk01:/backup# date
+Tue Sep 25 17:32:51 UTC 2018
+root@wk01:/backup# exit
+logout
+Connection to wk01 closed.
+root@ms01:~/icp-backup/resources# cd
+root@ms01:~# cd ~/icp-backup/resources
+root@ms01:~/icp-backup/resources#
+root@ms01:~/icp-backup/resources# ll
+total 32
+drwxr-xr-x 2 root root 4096 Sep 26 02:02 ./
+drwxr-xr-x 9 root root 4096 Sep 26 02:02 ../
+-rw-r--r-- 1 root root  164 Sep 26 02:02 cloudant_backup_pvc.yaml
+-rw-r--r-- 1 root root  500 Sep 26 02:02 icp-cloudant-backup-job.yaml
+-rw-r--r-- 1 root root  690 Sep 26 02:02 icp-cloudant-restore-job.yaml
+-rw-r--r-- 1 root root  553 Sep 26 02:02 icp-mariadb-backup-job.yaml
+-rw-r--r-- 1 root root  557 Sep 26 02:02 icp-mariadb-restore-job.yaml
+-rw-r--r-- 1 root root  274 Sep 26 02:02 mariadb-backup-pvc.yaml
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-restore-job.yaml
+The Job "icp-mariadb-restore" is invalid: spec.template.spec.containers[0].volumeMounts[0].name: Not found: "mariadb-backup"
+root@ms01:~/icp-backup/resources# vi icp-mariadb-restore-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: icp-mariadb-restore
+spec:
+  template:
+    spec:
+      volumes:
+      - name: mariadb-restore
+        persistentVolumeClaim:
+          claimName: mariadb-backup-pvc
+      containers:
+      - name: icp-mariadb-restore
+        image: "mycluster.icp:8500/default/ibmcase/icp-mariadb-backup:latest"
+        command: ["/mariadb-restore.sh", "--backup-home", "/data/backups"]
+        volumeMounts:
+          - mountPath: "/data/backups"
+            name: mariadb-backup
+      restartPolicy: Never
+  backoffLimit: 3
+~
+~
+~
+root@ms01:~/icp-backup/resources# vi icp-mariadb-restore-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: icp-mariadb-restore
+spec:
+  template:
+    spec:
+      volumes:
+      - name: mariadb-backup
+        persistentVolumeClaim:
+          claimName: mariadb-backup-pvc
+      containers:
+      - name: icp-mariadb-restore
+        image: "mycluster.icp:8500/default/ibmcase/icp-mariadb-backup:latest"
+        command: ["/mariadb-restore.sh", "--backup-home", "/data/backups"]
+        volumeMounts:
+          - mountPath: "/data/backups"
+            name: mariadb-backup
+      restartPolicy: Never
+  backoffLimit: 3
+~
+~
+~
+"icp-mariadb-restore-job.yaml" 20L, 557C written
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-restore-job.yaml
+job.batch/icp-mariadb-restore created
+root@ms01:~/icp-backup/resources# kubectl get pods -n kube-system | grep mariadb
+icp-mariadb-backup-vhzdf                                          0/1       Completed          0          8m
+icp-mariadb-restore-9qnf2                                         0/1       Completed          0          7s
+mariadb-0                                                         1/1       Running            1          2d
+root@ms01:~/icp-backup/resources# kubectl logs pod/icp-mariadb-restore-9qnf2
+[2018/09/25-17:36:35] mariadb-restore.sh(110) BEGIN mariadb-restore.sh
+[2018/09/25-17:36:35] mariadb-restore.sh(159) Most recent backup directory in /data/backups will be used for the MariaDB database restore.
+[2018/09/25-17:36:35] mariadb-restore.sh(174) Backup directory path: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:36:35] mariadb-restore.sh(192) ICP MariaDB database backups for: "OAuthDBSchema icptest information_schema mysql performance_schema" in: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:36:35] mariadb-restore.sh(198) MariaDB host: mariadb.kube-system
+[2018/09/25-17:36:35] mariadb-restore.sh(223) Databases to be restored: OAuthDBSchema icptest information_schema mysql performance_schema
+[2018/09/25-17:36:35] mariadb-restore.sh(224) Backups will be restored from: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:36:35] mariadb-restore.sh(231) MariaDB user: root
+[2018/09/25-17:36:36] mariadb-restore.sh(259) Restoring OAuthDBSchema from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/OAuthDBSchema-backup.sql...
+[2018/09/25-17:36:36] mariadb-restore.sh(265) OAuthDBSchema restore completed.
+[2018/09/25-17:36:36] mariadb-restore.sh(259) Restoring icptest from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/icptest-backup.sql...
+[2018/09/25-17:36:36] mariadb-restore.sh(265) icptest restore completed.
+[2018/09/25-17:36:36] mariadb-restore.sh(259) Restoring information_schema from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/information_schema-backup.sql...
+ERROR 1044 (42000) at line 22: Access denied for user 'root'@'%' to database 'information_schema'
+[2018/09/25-17:36:36] mariadb-restore.sh(263) ERROR: Restore FAILED for information_schema. Returned status of: 1.
+[2018/09/25-17:36:36] mariadb-restore.sh(259) Restoring mysql from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/mysql-backup.sql...
+[2018/09/25-17:36:37] mariadb-restore.sh(265) mysql restore completed.
+[2018/09/25-17:36:37] mariadb-restore.sh(259) Restoring performance_schema from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/performance_schema-backup.sql...
+ERROR 1050 (42S01) at line 25: Table 'accounts' already exists
+[2018/09/25-17:36:37] mariadb-restore.sh(263) ERROR: Restore FAILED for performance_schema. Returned status of: 1.
+[2018/09/25-17:36:37] mariadb-restore.sh(270) END mariadb-restore.sh
+root@ms01:~/icp-backup/resources# mysql --user=mariadb_user --password=mariadb_password --host=ms01
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1045 (28000): Access denied for user 'mariadb_user'@'169.56.80.221' (using password: YES)
+root@ms01:~/icp-backup/resources# mysql --user=$mariadb_user --password=$mariadb_password --host=ms01
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 337
+Server version: 5.5.5-10.2.17-MariaDB-1:10.2.17+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| OAuthDBSchema      |
+| icptest            |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> drop database icptest ;
+Query OK, 1 row affected (0.15 sec)
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| OAuthDBSchema      |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+root@ms01:~/icp-backup/resources# cd ~/icp-backup/resources
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-restore-job.yaml
+Error from server (AlreadyExists): error when creating "icp-mariadb-restore-job.yaml": jobs.batch "icp-mariadb-restore" already exists
+root@ms01:~/icp-backup/resources# kubectl delete job/icp-mariadb-restore
+job.batch "icp-mariadb-restore" deleted
+root@ms01:~/icp-backup/resources# kubectl create -f icp-mariadb-restore-job.yaml
+job.batch/icp-mariadb-restore created
+root@ms01:~/icp-backup/resources# kubectl get pods -n kube-system | grep mariadb
+icp-mariadb-backup-vhzdf                                          0/1       Completed          0          12m
+icp-mariadb-restore-qnbx5                                         0/1       Completed          0          42s
+mariadb-0                                                         1/1       Running            1          2d
+root@ms01:~/icp-backup/resources# kubectl logs pod/icp-mariadb-restore-qnbx5
+[2018/09/25-17:40:17] mariadb-restore.sh(110) BEGIN mariadb-restore.sh
+[2018/09/25-17:40:17] mariadb-restore.sh(159) Most recent backup directory in /data/backups will be used for the MariaDB database restore.
+[2018/09/25-17:40:17] mariadb-restore.sh(174) Backup directory path: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:40:17] mariadb-restore.sh(192) ICP MariaDB database backups for: "OAuthDBSchema icptest information_schema mysql performance_schema" in: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:40:17] mariadb-restore.sh(198) MariaDB host: mariadb.kube-system
+[2018/09/25-17:40:17] mariadb-restore.sh(223) Databases to be restored: OAuthDBSchema icptest information_schema mysql performance_schema
+[2018/09/25-17:40:17] mariadb-restore.sh(224) Backups will be restored from: /data/backups/icp-mariadb-backup-2018-09-25-17-28-39
+[2018/09/25-17:40:18] mariadb-restore.sh(231) MariaDB user: root
+[2018/09/25-17:40:18] mariadb-restore.sh(259) Restoring OAuthDBSchema from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/OAuthDBSchema-backup.sql...
+[2018/09/25-17:40:18] mariadb-restore.sh(265) OAuthDBSchema restore completed.
+[2018/09/25-17:40:18] mariadb-restore.sh(249) Database icptest does not currently exist in the MariaDB instance, creating icptest...
+[2018/09/25-17:40:18] mariadb-restore.sh(256) Database icptest created.
+[2018/09/25-17:40:18] mariadb-restore.sh(259) Restoring icptest from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/icptest-backup.sql...
+[2018/09/25-17:40:19] mariadb-restore.sh(265) icptest restore completed.
+[2018/09/25-17:40:19] mariadb-restore.sh(259) Restoring information_schema from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/information_schema-backup.sql...
+ERROR 1044 (42000) at line 22: Access denied for user 'root'@'%' to database 'information_schema'
+[2018/09/25-17:40:19] mariadb-restore.sh(263) ERROR: Restore FAILED for information_schema. Returned status of: 1.
+[2018/09/25-17:40:19] mariadb-restore.sh(259) Restoring mysql from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/mysql-backup.sql...
+[2018/09/25-17:40:20] mariadb-restore.sh(265) mysql restore completed.
+[2018/09/25-17:40:20] mariadb-restore.sh(259) Restoring performance_schema from /data/backups/icp-mariadb-backup-2018-09-25-17-28-39/performance_schema-backup.sql...
+ERROR 1050 (42S01) at line 25: Table 'accounts' already exists
+[2018/09/25-17:40:20] mariadb-restore.sh(263) ERROR: Restore FAILED for performance_schema. Returned status of: 1.
+[2018/09/25-17:40:20] mariadb-restore.sh(270) END mariadb-restore.sh
+root@ms01:~/icp-backup/resources# mysql --user=$mariadb_user --password=$mariadb_password --host=ms01
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 391
+Server version: 5.5.5-10.2.17-MariaDB-1:10.2.17+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| OAuthDBSchema      |
+| icptest            |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use icptest ;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables ;
++-------------------+
+| Tables_in_icptest |
++-------------------+
+| icp01             |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from icp01 ;
++------+------+
+| a    | b    |
++------+------+
+| xxxx |  100 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql>
