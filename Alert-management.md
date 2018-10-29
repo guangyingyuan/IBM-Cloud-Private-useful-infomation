@@ -24,7 +24,11 @@
 - config map	https://www.ibm.com/support/knowledgecenter/SSBS6K_3.1.0/manage_metrics/monitoring_service.html
 - alert rule	https://github.com/ibm-cloud-architecture/CSMO-ICP/tree/master/prometheus/alerts_prometheus2.x
 
-## Webhook
+## example yaml
+- alert manager https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/alert-manager.yaml    
+- alert rule https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/alert-rule.yaml
+
+## Webhook for snmp trapper
 - snmp	https://github.com/chrusty/prometheus_webhook_snmptrapper
 - snmp trapper 	https://github.com/ibm-cloud-architecture/CSMO-ICP/tree/master/prometheus/alertmanager_to_snmp
 
@@ -35,9 +39,11 @@
 - CEM manual	https://www.ibm.com/support/knowledgecenter/en/SSURRN/com.ibm.cem.doc/em_prometheus.html
 
 ## Remarks
-- parameter	https://www.robustperception.io/whats-the-difference-between-group_interval-group_wait-and-repeat_interval
-- amtool	https://github.com/prometheus/alertmanager/blob/master/README.md
+- parameter	https://www.robustperception.io/whats-the-difference-between-group_interval-group_wait-and-repeat_interval  
+~~~
+In this blogpost we try and clear up some confusion by outlining the key differences between commonly confused alerting configuration options: group_interval, group_wait, and repeat_interval.
 
-### example
-- alert manager https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/alert-manager.yaml    
-- alert rule https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/alert-rule.yaml
+Before digging into these 3 Alertmanager configuration options, let's recap on some Prometheus alerting basics.
+Prometheus itself has two global clocks: scrape_interval and evaluation_interval.
+~~~
+- amtool	https://github.com/prometheus/alertmanager/blob/master/README.md
