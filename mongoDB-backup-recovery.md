@@ -1,6 +1,7 @@
 # :cloud: mongoDB bakcup & recovery :cloud:
 
 ### 1. check mongodb pod  
+- each pod is running on 3 master nodes
 ~~~
 kubectl -n kube-system get pods | grep mongodb
 icp-mongodb-0                                                  1/1       Running     0          2d  
