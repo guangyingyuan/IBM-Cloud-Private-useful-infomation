@@ -1,9 +1,25 @@
+# Alter manager
+
 ## Alert event flow overview      
 <p align="center" >
 <img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-process.jpg">
 </p>
 
-- set up alert	https://developer.ibm.com/recipes/tutorials/setting-up-system-alerts-in-an-ibm-cloud-private-environment/
+- aler manager pod is resided on Management node
+<p align="center" >
+<img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-manager-pod.jpg">
+</p>
+
+<p align="center" >
+<img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-manager-portal.jpg">
+</p>
+
+<p align="center" >
+<img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-manager-configmap.jpg">
+</p>
+
+
+- how to set up alert	https://developer.ibm.com/recipes/tutorials/setting-up-system-alerts-in-an-ibm-cloud-private-environment/
 - config map	https://www.ibm.com/support/knowledgecenter/SSBS6K_3.1.0/manage_metrics/monitoring_service.html
 - alert rule	https://github.com/ibm-cloud-architecture/CSMO-ICP/tree/master/prometheus/alerts_prometheus2.x
 
@@ -22,7 +38,7 @@
 - amtool	https://github.com/prometheus/alertmanager/blob/master/README.md
 
 ### example
-- alert managerment
+- alert manager
 ~~~
 apiVersion: v1
 data:

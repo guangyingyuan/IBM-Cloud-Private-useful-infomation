@@ -14,3 +14,8 @@
 <p align="center" >
  <img width=700 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/icp-recovery-process-overview.jpg">
 </p>
+
+### @ Storge path for key component.   
+<p align="center" >
+ <img width=700 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/icp-recovery-storagepath.jpg">
+</p>
