@@ -1,4 +1,4 @@
-# :snowflake: ETCD backup and recovery :snowflake:
+# :snowflake: ETCD backup and recovery 
 
 ### overall process for etcd backup and recovery    
 <p align="center" >

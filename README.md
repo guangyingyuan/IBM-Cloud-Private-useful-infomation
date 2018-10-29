@@ -1,4 +1,4 @@
-# :zap: IBM Cloud Private useful information
+# :cloud: IBM Cloud Private useful information
 
 ## @ Backup & Recovery
 1. backup process overview      

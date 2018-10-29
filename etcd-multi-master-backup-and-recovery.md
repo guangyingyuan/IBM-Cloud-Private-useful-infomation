@@ -1,4 +1,4 @@
-# :snowman: etcd backup and recovery for multi-master :snowman:
+# :snowman: etcd backup and recovery for multi-master 
 
 ### overall process for etcd backup and recovery    
 <p align="center" >
