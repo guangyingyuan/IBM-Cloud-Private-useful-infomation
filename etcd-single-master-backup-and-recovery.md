@@ -65,8 +65,6 @@ kubectl exec -it k8s-etcd-169.56.80.221 -n kube-system sh
 watch -d -n 2 "docker ps | grep etcd"
 ~~~
 
-### Remarks
-
 - main	https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd.md
 - etcd restore to single   https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd_restore_single.md
 - etcd restore to multi    https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd_restore_multi.md

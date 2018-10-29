@@ -74,8 +74,6 @@ $etcdctl2 cluster-health
 ansible master -m package -a "use=apt name=jq state=present"
 ~~~
 
-### Remarks
-
 - main	https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd.md
 - etcd restore to single   https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd_restore_single.md
 - etcd restore to multi    https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/etcd_restore_multi.md
