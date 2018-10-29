@@ -15,20 +15,9 @@ rm -R mongodump
 tar -xvf /mongodump-2018-09-18_10.tar.gz -C /var/lib/icp/mongodb/workdir/Backup/  
 ~~~
 
-- ssh setup 
+- ssh setup
 ~~~
 ssh-keygen -b 4096 -f ~/.ssh/id_rsa -N ""
 cat ~/.ssh/id_rsa.pub | sudo tee -a ~/.ssh/authorized_keys
 ssh-copy-id -i ~/.ssh/id_rsa.pub <user>@<node_ip_address>
-~~~
-
-- ucp install        https://docs.docker.com/ee/ucp/admin/install/  
-~~~
-docker image pull docker/ucp:3.0.2
-docker container run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:3.0.2 install --host-address 169.56.71.55 --interactive
-~~~
-
-- dtr install
-~~~
-docker container run -it --rm docker/dtr:2.5.0 install --ucp-node ucp.seo.co.kr --ucp-insecure-tls
 ~~~

@@ -140,5 +140,5 @@ select * from icp01 ;
 
 ### Remarks
 
-backup process https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/mariadb.md    
-demo log file  https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/mariadb-backup-recovery-log.txt
+- backup process https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/mariadb.md    
+- demo log file  https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/files/mariadb-backup-recovery-log.txt

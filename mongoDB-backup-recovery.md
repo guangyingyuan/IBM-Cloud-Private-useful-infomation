@@ -91,6 +91,15 @@ kubectl -n kube-system exec icp-mongodb-2 -- sh -c 'mongorestore --host rs0/mong
 https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/mongodb.md (official, but not working)  
 https://github.ibm.com/IBMPrivateCloud/icp-mongodb/blob/master/BackupRestore.README.md (working)
 
+- mongoDB sharding  
+http://gjchoi.github.io/mongo/mongo-shard-setup/  
+https://fkkmemi.github.io/mongodb/mongo-sharding-1/  
+https://okky.kr/article/484109  
+
+- mongoDB HA in ICP
+https://github.com/gangchen03/refarch-icp-mongodb  
+
+
  - mongod.conf
  ~~~
     net:
