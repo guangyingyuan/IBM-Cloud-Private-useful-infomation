@@ -5,7 +5,7 @@
 <img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-process.jpg">
 </p>
 
-- alert manager pod is resided on Management node
+- alert manager pod is located on Management node
 <p align="center" >
 <img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/alert-manager-pod.jpg">
 </p>
