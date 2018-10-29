@@ -7,9 +7,14 @@ icp-mongodb-0                                                  1/1       Running
 icp-mongodb-1                                                  1/1       Running     0          2d  
 icp-mongodb-2                                                  1/1       Running     0          2d  
 ~~~
+<p align="center" >
+<img width=700 src="https://github.com/moreal70/IBM-Cloud-Private-useful-infomation/blob/master/images/mongodb-pod.jpg">
+</p>
+
+
 
 ### 2. go into mongodb container  
-- it may need to change container name 
+- it may need to change container name
 ~~~  
 kubectl -n kube-system exec -it icp-mongodb-0 bash
 mongo  --host rs0/mongodb:27017 --username admin --password $ADMIN_PASSWORD --authenticationDatabase admin --ssl --sslCAFile /ca/tls.crt --sslPEMKeyFile /work-dir/mongo.pem
@@ -42,7 +47,7 @@ kubectl -n kube-system exec -it icp-mongodb-0 bash
 mongo  --host rs0/mongodb:27017 --username admin --password $ADMIN_PASSWORD --authenticationDatabase admin --ssl --sslCAFile /ca/tls.crt --sslPEMKeyFile /work-dir/mongo.pem
 ~~~
 
-- drop help repository database 
+- drop help repository database
 ~~~
 show dbs ;
 use HELM_API_DB ;
@@ -50,11 +55,11 @@ db.dropDatabase()  ;
 show dbs ;
 ~~~
 
-### 7. check portal helm repo 
-- repositories should not be listed 
+### 7. check portal helm repo
+- repositories should not be listed
 ![helm repo](https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/portal_helm_repo.JPG)
 
-### 8. recovery 
+### 8. recovery
 - you can change option "--nsInclude" for specify the dbname
 ~~~
 kubectl -n kube-system exec icp-mongodb-2 -- sh -c 'mongorestore --host rs0/mongodb:27017 --username admin --password $ADMIN_PASSWORD --authenticationDatabase admin --ssl --sslCAFile /ca/tls.crt --sslPEMKeyFile /work-dir/mongo.pem /work-dir/Backup/mongodump --nsInclude HELM_API_DB.*'
@@ -66,13 +71,13 @@ show dbs ;
 use HELM_API_DB ;
 ~~~
 
-### :umbrella: Remarks 
+### :umbrella: Remarks
 - mongo sql example
 ~~~
 use icp02;
 use metering_DB ;
 use icptest ;
-db.icp02.insertOne({test:10000}) ; 
+db.icp02.insertOne({test:10000}) ;
 db.icp02.find() ;
 db.icp02.count() ;
 ~~~
@@ -87,7 +92,7 @@ kubectl -n kube-system exec icp-mongodb-2 -- sh -c 'mongorestore --host rs0/mong
 https://github.com/ibm-cloud-architecture/icp-backup/blob/master/docs/mongodb.md (official, but not working)  
 https://github.ibm.com/IBMPrivateCloud/icp-mongodb/blob/master/BackupRestore.README.md (working)
 
- - mongod.conf 
+ - mongod.conf
  ~~~
     net:
       bindIpAll: true
