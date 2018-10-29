@@ -41,7 +41,8 @@
 ## Remarks
 - parameter	https://www.robustperception.io/whats-the-difference-between-group_interval-group_wait-and-repeat_interval  
 ~~~
-In this blogpost we try and clear up some confusion by outlining the key differences between commonly confused alerting configuration options: group_interval, group_wait, and repeat_interval.
+In this blogpost we try and clear up some confusion by outlining the key differences between commonly confused
+alerting configuration options: group_interval, group_wait, and repeat_interval.
 
 Before digging into these 3 Alertmanager configuration options, let's recap on some Prometheus alerting basics.
 Prometheus itself has two global clocks: scrape_interval and evaluation_interval.
