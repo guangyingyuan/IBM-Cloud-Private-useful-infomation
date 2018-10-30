@@ -1,5 +1,18 @@
 ## Prometheus
 
+- collectd_exporter : https://github.com/prometheus/collectd_exporter  
+- what is collectd : https://collectd.org/
+- etcd monitor : https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/monitoring.md
+- etcd metrics : https://github.com/etcd-io/etcd/blob/master/Documentation/metrics.md
+~~~
+kubectl exec -it  prometheus-b8446f488-jlcjg -n istio-system  sh
+
+~~~
+
+node-exporter-endpoints-with-tls deamonset monitoring-prometheus-nodeexporter
+etcd  
+
+
 - install
 https://blog.outsider.ne.kr/1254  
 https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ubuntu-16-04  
