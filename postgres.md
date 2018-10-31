@@ -1,16 +1,17 @@
 # :bird: stolon - PostgreSQL cloud native High Availability
 
 ### @ IBM Watson Assistant on ICP uses PostgreSQL via stolon package for Watson Training Data
-### Stolon Architecture and Components
+
+* Stolon Architecture and Components
 <p align="center" >
-<img width=400 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/stolon_architecture.jpg">
+<img width=300 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/stolon_architecture.jpg">
 </p>
 Stolon is composed of 3 main components
 * keeper: it manages a PostgreSQL instance converging to the clusterview provided by the sentinel(s).
 * sentinel: it discovers and monitors keepers and calculates the optimal clusterview.
 * proxy: the client's access point. It enforce connections to the right PostgreSQL master and forcibly closes connections to old masters.
 
-### This is handson guide followed URL below and I added my testing how it work for HA
+### This is handson guide with github contents below and I added my testing about how it work for HA
 * https://github.com/sorintlab/stolon/blob/master/examples/kubernetes/README.md
 
 ## 1. Installation postgresql stolon
