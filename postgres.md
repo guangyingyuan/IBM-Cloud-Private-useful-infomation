@@ -1,16 +1,16 @@
-# stolon - PostgreSQL cloud native High Availability
+# :bird: stolon - PostgreSQL cloud native High Availability
 
-### IBM Watson Assistant on ICP uses stolon PostgreSQL clustering solution for HA, which is storage for Watson Training Data
+### @ IBM Watson Assistant on ICP uses PostgreSQL via stolon package for Watson Training Data
 ### Stolon Architecture and Components
 <p align="center" >
-<img width=600 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/stolon_architecture.jpg">
+<img width=400 src="https://github.com/moreal70/IBM-Private-Cloud-handsOn/blob/master/images/stolon_architecture.jpg">
 </p>
 Stolon is composed of 3 main components
 * keeper: it manages a PostgreSQL instance converging to the clusterview provided by the sentinel(s).
 * sentinel: it discovers and monitors keepers and calculates the optimal clusterview.
 * proxy: the client's access point. It enforce connections to the right PostgreSQL master and forcibly closes connections to old masters.
 
-### This is handsOn log according to examples below URL and also I update how it work for HA with tests
+### This is handson guide followed URL below and I added my testing how it work for HA
 * https://github.com/sorintlab/stolon/blob/master/examples/kubernetes/README.md
 
 ## 1. Installation postgresql stolon
@@ -21,7 +21,7 @@ cd ~/stolon/examples/kubernetes
 kubectl create -f stolon-sentinel.yaml
 kubectl create -f secret.yaml
 ~~~
-
+* need to create pvc and pv instead of storage class
 * pvc.yaml
 ~~~
 kind: PersistentVolume
@@ -60,6 +60,9 @@ kubectl create -f pv.yaml
 * need to update stolon-keeper.yaml when storage class "standard" is not privided
 ~~~
 kubectl create -f stolon-keeper.yaml
+~~~
+
+~~~
 kubectl create -f stolon-proxy.yaml
 kubectl create -f stolon-proxy-service.yaml
 ~~~
@@ -159,7 +162,7 @@ kubectl logs -f stolon-keeper-1 -c stolon-keeper -n default
 * keeper0 is automatically restarted by kubernetes as a master
 ~~~
 
-* switching to standby when master cannot be restarted
+* making a failure that pod can not be restarted automatically
 ~~~
 kubectl delete statefulset stolon-keeper --cascade=false
     statefulset.apps "stolon-keeper" deleted
